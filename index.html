@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هدية عيد الحب</title>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: خط عربي جميل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #ffb6c1 0%, #ff69b4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            border: 3px solid white;
+        }
+        /* صفحة كلمة المرور */
+        #password-page {
+            text-align: center;
+        }
+        #password-page h1 {
+            color: #c71585;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0 #fff;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        #password-input {
+            width: 80%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 3px solid #ff99cc;
+            border-radius: 50px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+        #password-input:focus {
+            border-color: #ff1493;
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        #submit-btn {
+            background: #ff1493;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        #submit-btn:hover {
+            background: #c71585;
+            transform: scale(1.05);
+        }
+        #error-msg {
+            color: red;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            min-height: 30px;
+        }
+        /* صفحة المحتوى (مخفية في البداية) */
+        #content-page {
+            display: none;
+            text-align: center;
+        }
+        .heart-icon {
+            color: #ff1493;
+            font-size: 2rem;
+            margin: 10px;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #b0306e;
+            margin: 25px 0 15px;
+            border-bottom: 3px dashed #ff99cc;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        /* مشغل الأغنية */
+        audio {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 30px;
+            outline: none;
+        }
+        /* ألبوم الصور - بحجم أكبر */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .memory-card {
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 260px;
+            transition: transform 0.3s;
+        }
+        .memory-card:hover {
+            transform: translateY(-10px);
+        }
+        .memory-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 3px solid #ffb6c1;
+        }
+        .memory-card p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #8b1e3f;
+            font-size: 1.1rem;
+        }
+        /* عداد الوقت */
+        .counter {
+            background: linear-gradient(45deg, #ff99cc, #ffc0cb);
+            padding: 25px;
+            border-radius: 60px;
+            margin-top: 30px;
+            color: #4a0036;
+            border: 3px solid white;
+        }
+        .time-units {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .time-unit {
+            background: rgba(255,255,255,0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            min-width: 120px;
+            backdrop-filter: blur(5px);
+        }
+        .time-unit span {
+            display: block;
+            font-size: 1rem;
+            color: #5a2e4a;
+        }
+        /* تزيين */
+        .fa-heart {
+            margin: 0 5px;
+        }
+        /* تحسين حجم العنوان */
+        .love-message {
+            color: #c71585;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            #password-input { width: 100%; }
+            .time-units { font-size: 1.2rem; }
+            .memory-card { width: 100%; }
+            .love-message { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== صفحة إدخال كلمة المرور ===== -->
+        <div id="password-page">
+            <h1><i class="fas fa-heart heart-icon"></i> كل سنه وانتي معايا <i class="fas fa-heart heart-icon"></i></h1>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="أدخل كلمة المرور" autofocus>
+                <button id="submit-btn"><i class="fas fa-lock-open"></i> دخول</button>
+            </div>
+            <div id="error-msg"></div>
+            <div style="margin-top: 40px; color: #777;">
+                <i class="fas fa-heart" style="color: #ff69b4;"></i> 
+                هتفضلي حب حياتي: <strong>love</strong> 
+            </div>
+        </div>
+
+        <!-- ===== صفحة المحتوى (تظهر بعد كلمة السر الصحيحة) ===== -->
+        <div id="content-page">
+            <!-- أيقونات قلوب -->
+            <div>
+                <i class="fas fa-heart heart-icon"></i>
+                <i class="fas fa-heart heart-icon"></i>
+                <i class="fas fa-heart heart-icon"></i>
+            </div>
+            
+            <!-- رسالة حب - بحجم مناسب -->
+            <div class="love-message">
+                بحبك مهما طال البُعد <br>
+                ولسه قلبي عند الوعد <br>
+                وحتى الفعل وانا وحدي <br>
+                كإنه بنعمله مع بعض <br>
+                لا عمري نسيت تاريخ بيننا <br>
+                ولا صورة ولا ذكرى 🥰❤️
+            </div>
+            
+            <!-- أغنية -->
+            <h2 class="section-title"><i class="fas fa-music"></i> أغنية بفتكرك في كل ثانيه منها ❤️</h2>
+            <audio controls>
+                <source src="https://serv100.albumaty.com/dl/gem/george-wassouf/albums/elhawa-sultan/02_Helaf_El_Amar.mp3" type="audio/mpeg">
+                متصفحك لا يدعم تشغيل الصوت.
+            </audio>
+
+            <!-- صور وذكريات -->
+            <h2 class="section-title"><i class="fas fa-camera"></i> صور وذكريات</h2>
+            <div class="gallery">
+                <!-- بطاقة ذكرى 1 -->
+                <div class="memory-card">
+                    <img src="https://i.ibb.co/8LGjz26B/IMG-20250609-230425.jpg" alt="ذكرى 1">
+                    <p>📸 من هنا بدأت احلي حكاية</p>
+                </div>
+                <!-- بطاقة ذكرى 2 -->
+                <div class="memory-card">
+                    <img src="https://i.ibb.co/LDhCt589/IMG-20250609-230229.jpg" alt="ذكرى 2">
+                    <p>كل ما اشوفها اضحك</p>
+                </div>
+                <!-- بطاقة ذكرى 3 -->
+                <div class="memory-card">
+                    <img src="https://i.ibb.co/VYzCL7XY/IMG.jpg" alt="ذكرى 3">
+                    <p>مش محتاج اشرح</p>
+                </div>
+                <!-- بطاقة ذكرى 4 -->
+                <div class="memory-card">
+                    <img src="https://i.ibb.co/jkfb4kVc/IMG.jpg" alt="ذكرى 4">
+                    <p>ملقتش احسن أو اجمل منك اختم بيه ❤️</p>
+                </div>
+            </div>
+            <p style="color: gray; margin-top: 0;">هتفضلي حبيبتي اللي عمري ما اقدر استغنى عنها 🥰</p>
+
+            <!-- عداد الوقت منذ بداية العلاقة -->
+            <h2 class="section-title"><i class="fas fa-clock"></i> منذ بداية حبنا</h2>
+            <div class="counter">
+                <div class="time-units">
+                    <div class="time-unit" id="months">٠<span>شهر</span></div>
+                    <div class="time-unit" id="days">٠<span>يوم</span></div>
+                    <div class="time-unit" id="hours">٠<span>ساعة</span></div>
+                    <div class="time-unit" id="minutes">٠<span>دقيقة</span></div>
+                    <div class="time-unit" id="seconds">٠<span>ثانية</span></div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; color: #8b1e3f;">
+                <i class="fas fa-heart"></i> كل لحظة معك أجمل من التي قبلها <i class="fas fa-heart"></i>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ------------------- الإعدادات -------------------
+        // 1. كلمة المرور الصحيحة (غيرها بما تريد)
+        const CORRECT_PASSWORD = "26/1"; // تم التعديل لتوافق النص
+        
+        // 2. تاريخ بداية العلاقة (يونيو, 9, 2025)
+        //    يونيو = 5 (لأن يناير=0, فبراير=1, ... يونيو=5)
+        const START_DATE = new Date(2025, 6, 9); // تم التصحيح: شهر 5 = يونيو
+        // -------------------------------------------------
+
+        // عناصر الصفحة
+        const passwordPage = document.getElementById('password-page');
+        const contentPage = document.getElementById('content-page');
+        const passwordInput = document.getElementById('password-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-msg');
+
+        // التحقق من كلمة المرور
+        function checkPassword() {
+            const enteredPassword = passwordInput.value;
+            if (enteredPassword === CORRECT_PASSWORD) {
+                passwordPage.style.display = 'none';
+                contentPage.style.display = 'block';
+                startCounter();
+            } else {
+                errorMsg.textContent = '❌ كلمة المرور خطأ، حاول مرة أخرى';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        submitBtn.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // ------------------- عداد الوقت -------------------
+        function updateCounter() {
+            const now = new Date();
+            const start = new Date(START_DATE);
+
+            let diff = now - start;
+            
+            let seconds = Math.floor(diff / 1000);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            let days = Math.floor(hours / 24);
+            
+            let yearsDiff = now.getFullYear() - start.getFullYear();
+            let monthsDiff = now.getMonth() - start.getMonth();
+            let daysDiff = now.getDate() - start.getDate();
+
+            if (daysDiff < 0) {
+                monthsDiff--;
+                let lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                daysDiff = lastMonth.getDate() - start.getDate() + now.getDate();
+            }
+            
+            let totalMonths = yearsDiff * 12 + monthsDiff;
+            let remainingDays = daysDiff;
+            let remainingHours = hours % 24;
+            let remainingMinutes = minutes % 60;
+            let remainingSeconds = seconds % 60;
+
+            document.getElementById('months').innerHTML = `${totalMonths}<span>شهر</span>`;
+            document.getElementById('days').innerHTML = `${remainingDays}<span>يوم</span>`;
+            document.getElementById('hours').innerHTML = `${remainingHours}<span>ساعة</span>`;
+            document.getElementById('minutes').innerHTML = `${remainingMinutes}<span>دقيقة</span>`;
+            document.getElementById('seconds').innerHTML = `${remainingSeconds}<span>ثانية</span>`;
+        }
+
+        function startCounter() {
+            updateCounter();
+            setInterval(updateCounter, 1000);
+        }
+    </script>
+</body>
+</html>
